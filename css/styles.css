@@ -1,0 +1,280 @@
+/*Reset Basico*/
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+/*Ciclo*/
+body {
+    background: linear-gradient(to top, #a8d0e6, white );
+    transition: background 5s ease-in-out;
+}
+
+body.sky-animating {
+    animation: skyCycle 60s linear infinite;
+}
+
+/*Cambios progresivos del cielo*/
+@keyframes skyCycle {
+    0% {
+        background: linear-gradient(to top, #a8d0e6, white); /* Día claro */
+    }
+    25% {
+        background: linear-gradient(to top, #ffd6a5, #ffb48a); /* Tarde cálida */
+    }
+    50% {
+        background: linear-gradient(to top, #ff9966, #ff5e62); /* Atardecer */
+    }
+    75% {
+        background: linear-gradient(to top, #1e3c72, #2a5298); /* Noche */
+    }
+    100% {
+        background: linear-gradient(to top, #a8d0e6, white); /* Regreso al día */
+    }
+}
+
+/*transicion*/
+.cloud {
+    transition: opacity 2s ease-in-out;
+}
+
+body.night .cloud {
+    opacity: 0;
+}
+
+/*Video en toda la pantalla*/
+#introVideo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+/* Wrapper para centrar el sobre */
+#envelopeWrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none; /* se mostrará cuando termine el video */
+    z-index: 20;
+}
+
+/*Sobre flotante*/
+#envelope {
+    width: 250px;
+    height: 150px;
+    background-color: #F5E6CC;
+    border: 2px solid #E8D7B3;
+    border-radius: 10px;
+    cursor: pointer;
+    z-index: 30;
+    animation: float 2s ease-in-out infinite;
+    transition: transform 1.5s ease, opacity 1.5s ease;
+}
+
+#envelope::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border-radius: 12px; /* ajustar según el borde del sobre */
+    z-index: -1; /* detrás del sobre */
+    box-shadow: 0 0 12px rgba(255, 215, 0, 0.8); /* brillo dorado */
+}
+
+#envelope::before {
+    content: '';
+    position: absolute;
+    top: 0;           /* al inicio del rectángulo */
+    left: 0;
+    width: 0;
+    height: 0;
+    border-left: 125px solid transparent;   /* mitad del ancho */
+    border-right: 125px solid transparent;  /* mitad del ancho */
+    border-top: 75px solid #E8D7B3;        /* triángulo apuntando hacia abajo */
+}
+
+/* Texto centrado dentro del sobre */
+.envelope-text {
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    text-align: center;
+    font-size: 18px;
+    color: #333;
+    font-weight: bold;
+}
+
+/*Abriendo el sobre*/
+#envelope.open {
+    animation: openDown 1.3s forwards;
+}
+
+@keyframes openDown {
+    0% { transform: translateY(0px); opacity: 1; }
+    100% { transform: translateY(50px); opacity: 0; }
+}
+
+/*Animacion flotante*/
+@keyframes float {
+    0% { transform: translate(0px, 0px); }
+    50% { transform: translate(5px, -20px); }
+    100% { transform: translate(0px, 0px); }
+}
+
+#card {
+    width: 330px;
+    max-width: 90%;
+    max-height: 80%;
+    left: 40%;
+    top: 5%;
+    background-color: #FFF8E7;
+    border: 2px solid #E0D8C0;
+    border-radius: 8px;
+
+    display: flex;
+    flex-direction: column;      /* para apilar el contenido verticalmente */
+    justify-content: center;     /* centra verticalmente */
+    align-items: center;         /* centra horizontalmente */
+    
+    text-align: center;          /* centra el texto dentro de los elementos */
+    padding: 20px;
+    opacity: 0;
+    z-index: 10;
+    overflow-y: auto;            /* scroll si es necesario */
+    box-sizing: border-box;
+    position: relative;
+}
+
+
+/*carta visible*/
+#card.show {
+    opacity: 1;
+    animation: card-bounce 2s forwards;
+}
+
+#card::before{
+    content: '';
+    position: relative;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border-radius: 12px;
+    z-index: -1;
+    box-shadow: 0 0 12px rgba(255, 215, 0, 0.5);
+    animation: card-glow 3s ease-in-out infinite;
+}
+
+#card .message {
+    width: 100%;
+    word-break: break-word;  /* evita que palabras largas o emojis rompan la línea */
+    white-space: pre-wrap;   /* mantiene los saltos de línea */
+    font-size: 14px;
+    line-height: 1.5;
+    color: #333;
+    text-align: center;      /* centra el texto dentro del div */
+    margin: 0;
+}
+
+#card .message p {
+    margin: -5px;
+    text-align: center;
+}
+
+/* Keyframes para rebote */
+@keyframes card-bounce {
+    0% { transform: translate(-50%, 50px); opacity: 0; }
+    60% { transform: translate(-50%, -60px); opacity: 1; }
+    80% { transform: translate(-50%, -50px); }
+    100% { transform: translate(-50%, -55px); }
+}
+
+/* Keyframes brillo pulsante */
+@keyframes card-glow {
+    0%, 100% {
+        box-shadow: 0 0 8px rgba(255, 215, 0, 0.3),
+                    0 0 16px rgba(255, 215, 0, 0.2);
+    }
+    50% {
+        box-shadow: 0 0 16px rgba(255, 215, 0, 0.6),
+                    0 0 32px rgba(255, 215, 0, 0.3);
+    }
+}
+
+/* Contenedor global */
+#confetti-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    overflow: visible;
+    z-index: 9999;
+}
+
+/* Confeti individual */
+.confetti {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background-color: red; /* se reemplaza en JS */
+    border-radius: 50%;
+    opacity: 1;
+    transform: translate(0,0) rotate(0deg);
+    /* transición de caída lenta */
+    transition: transform 5s ease-out, opacity 5s ease-out;
+    box-shadow: 0 0 2px rgba(0,0,0,0.2);
+}
+
+@keyframes confetti-fall {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(200px) rotate(360deg); opacity: 0; }
+}
+
+/* Nube compuesta */
+.cloud {
+    position: absolute;
+    will-change: transform;
+    animation-name: moveCloud;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-fill-mode: forwards;
+}
+
+@keyframes moveCloud {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(120vw); } /* se mueve más allá de la pantalla */
+}
+
+/*Estrellas*/
+.star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: white;
+    border-radius: 50%;
+    opacity: 0;
+    animation: twinkle 2s infinite ease-in-out;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.1;}
+    50% { opacity: 1; }
+}
